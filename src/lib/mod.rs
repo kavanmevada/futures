@@ -1,19 +1,22 @@
 use core::{
+    borrow::Borrow,
     cell::Cell,
     future::Future,
+    marker::PhantomData,
+    pin::Pin,
+    sync::atomic::AtomicUsize,
     sync::atomic::{AtomicBool, Ordering},
     task::{Context, Poll, Waker},
 };
+
+extern crate alloc;
+use alloc::{sync::Arc, task::Wake};
+
 use std::{
-    borrow::Borrow,
     io,
-    marker::PhantomData,
     net::{SocketAddr, TcpListener, TcpStream},
     os::unix::prelude::{AsRawFd, RawFd},
-    pin::Pin,
-    sync::Arc,
-    sync::{atomic::AtomicUsize, Mutex, MutexGuard},
-    task::Wake,
+    sync::{Mutex, MutexGuard},
 };
 
 use once_cell::sync::Lazy;
